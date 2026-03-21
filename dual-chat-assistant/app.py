@@ -1,6 +1,7 @@
 from llm.qwen_client import QwenClient
 from llm.ollama_client import OllamaClient
 from config import MAX_HISTORY_MESSAGES, SYSTEM_PROMPT
+from utils.chat_storage import save_chat
 
 
 def choose_backend():
@@ -36,26 +37,75 @@ def trim_messages(messages, max_history_messages):
 
     return [system_message] + history
 
+def create_initial_messages(system_prompt: str):
+    return [{"role": "system", "content": system_prompt}]
+
+def print_help():
+    print("\n可用命令:")
+    print("/clear              清空上下文")
+    print("/history            查看当前消息数")
+    print("/backend            切换模型后端")
+    print("/system 新提示词     修改 system prompt")
+    print("/help               查看帮助")
+    print("/exit               退出程序\n")
 
 def main():
-    print("=== Dual Chat Assistant v0.2 ===")
+    print("=== Dual Chat Assistant v0.3 ===")
     backend = choose_backend()
     client = build_client(backend)
 
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT}
-    ]
+    current_system_prompt = SYSTEM_PROMPT
+    messages = create_initial_messages(current_system_prompt)
 
     print(f"\n当前后端: {backend}")
-    print("输入 exit 退出程序。\n")
+    print("输入 /help 查看命令。\n")
 
     while True:
         user_input = input("你：").strip()
-        if user_input.lower() in {"exit", "quit"}:
+
+        if not user_input:
+            continue
+
+        if user_input.lower() in {"/exit", "exit", "quit"}:
+            saved_path = save_chat(
+                messages=messages,
+                backend=backend,
+                system_prompt=current_system_prompt
+            )
+            print(f"聊天记录已保存到：{saved_path}")
             print("程序结束。")
             break
 
-        if not user_input:
+        if user_input == "/help":
+            print_help()
+            continue
+
+        if user_input == "/clear":
+            messages = create_initial_messages(current_system_prompt)
+            print("上下文已清空")
+            continue
+
+        if user_input == "/history":
+            print(f"当前消息数（含 system）: {len(messages)}")
+            print(f"当前普通历史消息数: {len(messages) - 1}")
+            continue
+
+        if user_input == "/backend":
+            backend = choose_backend()
+            client = build_client(backend)
+            print(f"已切换到后端: {backend}")
+            print("提示：当前上下文未清空，你正在把同一段历史交给新后端继续回答。")
+            continue
+
+        if user_input.startswith("/system"):
+            new_prompt = user_input[len("/system "):].strip()
+            if not new_prompt:
+                print("system prompt 不能为空！")
+                continue
+
+            current_system_prompt = new_prompt
+            messages = create_initial_messages(current_system_prompt)
+            print("系统提示词已更新，并已重置上下文。")
             continue
 
         messages.append({"role": "user", "content": user_input})
