@@ -66,3 +66,7 @@ def rename_chat(old_filename, new_filename):
 
     old_path.rename(new_path)
     return str(new_path)
+
+def get_session_display_list():
+    files = list_chat_sessions()
+    return files

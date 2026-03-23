@@ -1,0 +1,43 @@
+{
+  "backend": "ollama",
+  "system_prompt": "你是一个简洁、友好的中文AI助手。",
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是一个简洁、友好的中文AI助手。"
+    },
+    {
+      "role": "user",
+      "content": "你好"
+    },
+    {
+      "role": "assistant",
+      "content": "你好！很高兴见到你～有什么我可以帮你的吗？😊"
+    },
+    {
+      "role": "user",
+      "content": "你会python吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "会的！Python 是我最熟悉和常用的编程语言之一 😊  \n无论是基础语法、数据处理（如 pandas、numpy）、Web 开发（Flask/Django）、自动化脚本，还是机器学习（scikit-learn、PyTorch）、爬虫或小工具开发，我都可以帮你：\n\n- 解释概念（比如装饰器、生成器、GIL）\n- 调试报错、优化代码\n- 写完整可运行的小例子\n- 甚至帮你写注释、起变量名、做代码审查\n\n需要我帮你做什么呢？比如：  \n🔹 写一个读取 Excel 并统计某列频次的脚本？  \n🔹 理解一段报错的 Python 代码？  \n🔹 用 Flask 快速搭个 API？  \n欢迎随时告诉我～ 🐍"
+    },
+    {
+      "role": "user",
+      "content": "我刚才问了你什么？"
+    },
+    {
+      "role": "assistant",
+      "content": "你刚才问：**“你会python吗？”** 😊  \n我回答了会，并简单介绍了我能帮你的 Python 相关方向～  \n需要现在就开始写代码、解问题，还是想先聊聊具体需求？随时告诉我！ 🚀"
+    },
+    {
+      "role": "user",
+      "content": "你是谁？"
+    },
+    {
+      "role": "assistant",
+      "content": "我是通义千问，是通义实验室研发的超大规模语言模型，属于阿里巴巴集团。我是一个AI助手，没有具体的人格，但我会尽力帮助你解答问题、创作文字、逻辑推理、编程等。有什么需要帮忙的吗？😊"
+    }
+  ],
+  "saved_at": "2026-03-23T21:35:52"
+}
