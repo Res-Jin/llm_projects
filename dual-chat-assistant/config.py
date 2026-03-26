@@ -15,3 +15,6 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3:8b")
 TEMPERATURE = float(os.getenv("TEMPERATURE"))
 MAX_HISTORY_MESSAGES = int(os.getenv("MAX_HISTORY_MESSAGES"))
 SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "你是一个简洁、友好的中文AI助手。")
+
+EMBEDDING_BACKEND = os.getenv("EMBEDDING_BACKEND", "ollama")
+OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "embeddinggemma")
