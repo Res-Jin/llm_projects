@@ -29,21 +29,51 @@ def split_documents(documents, chunk_size: int = 200, chunk_overlap: int = 50):
 
     for doc in documents:
         source = doc["source"]
-        content = doc["content"]
 
-        chunks = split_text(
-            text=content,
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap
-        )
+        # PDF：按页切块，并保留 page 信息
+        if "pages" in doc and doc["pages"]:
+            global_chunk_id = 0
 
-        for idx, chunk in enumerate(chunks):
-            all_chunks.append(
-                {
-                    "source": source,
-                    "chunk_id": idx,
-                    "content": chunk,
-                }
+            for page_item in doc["pages"]:
+                page_num = page_item["page"]
+                page_text = page_item["text"]
+
+                page_chunks = split_text(
+                    text=page_text,
+                    chunk_size=chunk_size,
+                    chunk_overlap=chunk_overlap
+                )
+
+                for local_idx, chunk in enumerate(page_chunks):
+                    all_chunks.append(
+                        {
+                            "source": source,
+                            "page": page_num,
+                            "chunk_id": global_chunk_id,
+                            "page_chunk_id": local_idx,
+                            "content": chunk,
+                        }
+                    )
+                    global_chunk_id += 1
+
+        # txt / md：按全文切块
+        else:
+            content = doc["content"]
+            chunks = split_text(
+                text=content,
+                chunk_size=chunk_size,
+                chunk_overlap=chunk_overlap
             )
+
+            for idx, chunk in enumerate(chunks):
+                all_chunks.append(
+                    {
+                        "source": source,
+                        "page": None,
+                        "chunk_id": idx,
+                        "page_chunk_id": None,
+                        "content": chunk,
+                    }
+                )
 
     return all_chunks

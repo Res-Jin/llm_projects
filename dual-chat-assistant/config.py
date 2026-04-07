@@ -18,3 +18,9 @@ SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "你是一个简洁、友好的中文
 
 EMBEDDING_BACKEND = os.getenv("EMBEDDING_BACKEND", "ollama")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "embeddinggemma")
+
+RAG_DOCS_DIR = os.getenv("RAG_DOCS_DIR", "docs")
+RAG_CHUNK_SIZE = int(os.getenv("RAG_CHUNK_SIZE", "80"))
+RAG_CHUNK_OVERLAP = int(os.getenv("RAG_CHUNK_OVERLAP", "20"))
+RAG_TOP_K = int(os.getenv("RAG_TOP_K", "3"))
+RAG_MIN_SCORE = float(os.getenv("RAG_MIN_SCORE", "0.45"))

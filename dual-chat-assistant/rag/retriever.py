@@ -18,7 +18,9 @@ def retrieve_top_k(query_vector, chunk_records, top_k=3):
         scored.append(
             {
                 "source": record["source"],
+                "page": record.get("page"),
                 "chunk_id": record["chunk_id"],
+                "page_chunk_id": record.get("page_chunk_id"),
                 "content": record["content"],
                 "score": score,
             }
@@ -26,3 +28,6 @@ def retrieve_top_k(query_vector, chunk_records, top_k=3):
 
     scored.sort(key=lambda x: x["score"], reverse=True)
     return scored[:top_k]
+
+def filter_by_score(results, min_score):
+    return [item for item in results if item["score"] >= min_score]
